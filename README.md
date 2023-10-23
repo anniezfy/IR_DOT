@@ -77,7 +77,6 @@ For example:  two pairs of string-valued name-attribute are attached to node `a`
     `b [label="end", color="green"];`
     `a -> b [label="path", style="dashed"];`
 `}`
-```
 
 Dot is a language for describing the structure of graph of which could be rendered and visualized via Graphviz Tool and end 	up with generating a diagram.
 
