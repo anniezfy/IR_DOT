@@ -161,7 +161,7 @@ public:
 
 int main() {
     //Open source file under Correct Location
-    FILE *file = fopen("/Users/anniezfy/PycharmProjects/Torch_MLIR_MATRIX/matrix_mulitiplication_affine_2.2.mlir", "r");
+    FILE *file = fopen("./matrix_mulitiplication_affine_2.2.mlir", "r");
     if (file == nullptr) {
         printf("File Open failed\n");
         return 1;
@@ -233,9 +233,11 @@ int main() {
                 edgeList.push_back(Edge(edgeList[edgeList.size()-1].getSinkNode(),nodeList[nodeList.size()-1].getSingleNode()));
                 /// Push the new for node to Stack according to FILO policy
                 forNodeStack.push(forNode);
+/*
 #ifdef DEBUG
                 forNodeStack.traverse();
 #endif
+ */
             }
         }
         else if(str.find("affine.store") != string::npos){
@@ -276,13 +278,14 @@ int main() {
             /// Match the memref.copy identifier
             /// Append new node in the nodeList
             Operator_Count["memref.copy"]++;
-            nodeList.push_back(Node("memref.copy"));
+
+/*            nodeList.push_back(Node("memref.copy"));
 #ifdef DEBUG
             for(auto &elemt:nodeList){
                 cout<<elemt.getSingleNode()<<endl;
             }
 #endif
-            /// Create the corresponding edge
+    */        /// Create the corresponding edge
             if(edgeList.empty()){
                 /// Initialization of edgeList
                 edgeList.push_back(Edge(nodeList[0].getSingleNode(),nodeList[1].getSingleNode()));
@@ -333,11 +336,13 @@ int main() {
             if(edgeList.empty()){
                 /// Initialization of edgeList
                 edgeList.push_back(Edge(nodeList[0].getSingleNode(),nodeList[1].getSingleNode()));
+/*
 #ifdef DEBUG
                 for(const Edge &elem:edgeList){
                     cout<<elem.getEdge()<<endl;
                 }
 #endif
+ */
             }else{
                 /// Create the subsequent edges
                 edgeList.push_back(Edge(edgeList[edgeList.size()-1].getSinkNode(),nodeList[nodeList.size()-1].getSingleNode()));
@@ -347,11 +352,13 @@ int main() {
         else if(str.find("return")!= string::npos){
             nodeList.push_back(Node("END"));
             edgeList.push_back(Edge(edgeList[edgeList.size()-1].getSinkNode(),nodeList[nodeList.size()-1].getSingleNode()));
+/*
 #ifdef DEBUG
             for(const Edge &elem:edgeList){
                 cout<<elem.getEdge()<<endl;
             }
 #endif
+ */
             fclose(file);  // 关闭文件
         }
         else if(str.find('}')!= string::npos && str.find('{')== string::npos)  {

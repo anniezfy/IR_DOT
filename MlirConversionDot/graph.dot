@@ -6,7 +6,6 @@ affine_for_loop1
 affine_for_loop2
 affine_store1
 memref_alloc2
-memref_copy1
 memref_dealloc1
 affine_for_loop3
 affine_for_loop4
@@ -17,7 +16,6 @@ affine_load3
 arith_mulf1
 arith_addf0
 affine_store2
-memref_copy2
 END
 Start_Function -> arith_constant1;
 arith_constant1 -> memref_alloc1;
@@ -27,8 +25,8 @@ affine_for_loop2 -> affine_store1;
 affine_store1 -> affine_for_loop2 [label="back"];
 affine_for_loop2 -> affine_for_loop1 [label="back"];
 affine_for_loop1 -> memref_alloc2;
-memref_alloc2 -> memref_copy1;
-memref_copy1 -> memref_dealloc1;
+memref_alloc2 -> memref_alloc2;
+memref_alloc2 -> memref_dealloc1;
 memref_dealloc1 -> affine_for_loop3;
 affine_for_loop3 -> affine_for_loop4;
 affine_for_loop4 -> affine_for_loop5;
@@ -41,6 +39,6 @@ arith_addf0 -> affine_store2;
 affine_store2 -> affine_for_loop5 [label="back"];
 affine_for_loop5 -> affine_for_loop4 [label="back"];
 affine_for_loop4 -> affine_for_loop3 [label="back"];
-affine_for_loop3 -> memref_copy2;
-memref_copy2 -> END;
+affine_for_loop3 -> affine_store2;
+affine_store2 -> END;
 }
