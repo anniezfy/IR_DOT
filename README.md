@@ -65,7 +65,7 @@ pip3.11 torch_mlir-20231019.996-cp311-cp311-linux_x86_64.whl
 ```
 # Dot format file illustration
 
-Dot is known as a graph representation  language for  a clear and hierarchical  program flow structure description.
+[Dot](https://graphviz.org/doc/info/lang.html) is known as a graph representation  language for  a clear and hierarchical  program flow structure description.
 
 Besides, the Dot language provides syntax for defining (named and anonymous) graphs, nodes and edges, plus the ability to attach string-valued name-attribute pairs to graph components
 
