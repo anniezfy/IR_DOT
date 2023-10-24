@@ -153,7 +153,7 @@ digraph MLIR {
   inner_loop1 -> end;
 }
 ```
-visualize graph layout
+visualized graph layout
 
  ![](https://anniezfy.oss-cn-hangzhou.aliyuncs.com/%E6%88%AA%E5%B1%8F2023-10-20%2014.31.32.png)
 
