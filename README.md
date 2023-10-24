@@ -125,32 +125,49 @@ Generated output dot format file
 
 
 ```dot
-digraph MLIR {
-  // 节点定义
-  start [label="Start"];
-  forward_func [label="forward function"];
-  alloc [label="alloc"];
-  inner_loop1 [label="Inner Loop 1"];
-  inner_loop2 [label="Inner Loop 2"];
-  inner_loop3 [label="Inner Loop 3"];
-  add [label="Add"];
-  mul [label="Multiply"];
-  store [label="Store"];
-  end [label="End"];
-
-  // 边定义
-  start -> forward_func;
-  forward_func -> alloc;
-  alloc -> inner_loop1;
-  inner_loop1 -> inner_loop2;
-  inner_loop2 -> inner_loop3;
-  inner_loop3 -> mul;
-  mul -> add;
-  add -> store;
-  store -> inner_loop3 [label="back"];
-  inner_loop3 -> inner_loop2 [label="back"];
-  inner_loop2 -> inner_loop1 [label="back"];
-  inner_loop1 -> end;
+digraph GEMM{
+Start_Function
+arith_constant1
+memref_alloc1
+affine_for_loop1
+affine_for_loop2
+affine_store1
+memref_alloc2
+memref_dealloc1
+affine_for_loop3
+affine_for_loop4
+affine_for_loop5
+affine_load1
+affine_load2
+affine_load3
+arith_mulf1
+arith_addf0
+affine_store2
+END
+Start_Function -> arith_constant1;
+arith_constant1 -> memref_alloc1;
+memref_alloc1 -> affine_for_loop1;
+affine_for_loop1 -> affine_for_loop2;
+affine_for_loop2 -> affine_store1;
+affine_store1 -> affine_for_loop2 [label="back"];
+affine_for_loop2 -> affine_for_loop1 [label="back"];
+affine_for_loop1 -> memref_alloc2;
+memref_alloc2 -> memref_alloc2;
+memref_alloc2 -> memref_dealloc1;
+memref_dealloc1 -> affine_for_loop3;
+affine_for_loop3 -> affine_for_loop4;
+affine_for_loop4 -> affine_for_loop5;
+affine_for_loop5 -> affine_load1;
+affine_load1 -> affine_load2;
+affine_load2 -> affine_load3;
+affine_load3 -> arith_mulf1;
+arith_mulf1 -> arith_addf0;
+arith_addf0 -> affine_store2;
+affine_store2 -> affine_for_loop5 [label="back"];
+affine_for_loop5 -> affine_for_loop4 [label="back"];
+affine_for_loop4 -> affine_for_loop3 [label="back"];
+affine_for_loop3 -> affine_store2;
+affine_store2 -> END;
 }
 ```
 visualized graph layout
