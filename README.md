@@ -82,3 +82,80 @@ For example:  two pairs of string-valued name-attribute are attached to node `a`
 Dot is a language for describing the structure of graph of which could be rendered and visualized via Graphviz Tool and end 	up with generating a diagram
 
 ​           [Graphivz Online  Link](https://dreampuf.github.io/GraphvizOnline/#graph%20ER%20%7B%20node%20%5Bshape%3Dbox%5D%3B%20course%3B%20institute%3B%20student%3B%20node%20%5Bshape%3Dellipse%5D%3B%20%7Bnode%20%5Blabel%3D%22name%22%5D%20name0%3B%20name1%3B%20name2%3B%7D%20code%3B%20grade%3B%20number%3B%20node%20%5Bshape%3Ddiamond%2Cstyle%3Dfilled%2Ccolor%3Dlightgrey%5D%3B%20%22C-I%22%3B%20%22S-C%22%3B%20%22S-I%22%3B%20name0%20--%20course%3B%20code%20--%20course%3B%20course%20--%20%22C-I%22%20%5Blabel%3D%22n%22%2Clen%3D1.00%5D%3B%20%22C-I%22%20--%20institute%20%5Blabel%3D%221%22%2Clen%3D1.00%5D%3B%20institute%20--%20name1%3B%20institute%20--%20%22S-I%22%20%5Blabel%3D%221%22%2Clen%3D1.00%5D%3B%20%22S-I%22%20--%20student%20%5Blabel%3D%22n%22%2Clen%3D1.00%5D%3B%20student%20--%20grade%3B%20student%20--%20name2%3B%20student%20--%20number%3B%20student%20--%20%22S-C%22%20%5Blabel%3D%22m%22%2Clen%3D1.00%5D%3B%20%22S-C%22%20--%20course%20%5Blabel%3D%22n%22%2Clen%3D1.00%5D%3B%20fontsize%3D20%3B%20label%20%3D%20%22%5Cn%5CnEntity%20Relation%20Diagram%5Cndrawn%20by%20NEATO%22%3B%20%7D)
+
+
+
+# Case example 
+input code mlir snippet 
+
+
+```mlir
+module attributes {torch.debug_module_name = "MatMulModule"} {
+  ml_program.global private mutable @global_seed(dense<0> : tensor<i64>) : tensor<i64>
+  func.func @forward(%arg0: memref<3x3xf32>, %arg1: memref<3x3xf32>, %arg2: memref<3x3xf32>) {
+    %cst = arith.constant 0.000000e+00 : f32
+    %alloc = memref.alloc() {alignment = 64 : i64} : memref<3x3xf32>
+    affine.for %arg3 = 0 to 3 {
+      affine.for %arg4 = 0 to 3 {
+        affine.store %cst, %alloc[%arg3, %arg4] : memref<3x3xf32>
+      }
+    }
+    %alloc_0 = memref.alloc() {alignment = 64 : i64} : memref<3x3xf32>
+    memref.copy %alloc, %alloc_0 : memref<3x3xf32> to memref<3x3xf32>
+    memref.dealloc %alloc : memref<3x3xf32>
+    affine.for %arg3 = 0 to 3 {
+      affine.for %arg4 = 0 to 3 {
+        affine.for %arg5 = 0 to 3 {
+          %0 = affine.load %arg0[%arg3, %arg5] : memref<3x3xf32>
+          %1 = affine.load %arg1[%arg5, %arg4] : memref<3x3xf32>
+          %2 = affine.load %alloc_0[%arg3, %arg4] : memref<3x3xf32>
+          %3 = arith.mulf %0, %1 : f32
+          %4 = arith.addf %2, %3 : f32
+          affine.store %4, %alloc_0[%arg3, %arg4] : memref<3x3xf32>
+        }
+      }
+    }
+    memref.copy %allo`c_0, %arg2 : memref<3x3xf32> to memref<3x3xf32>
+    return
+  }
+}
+```
+
+Generated output dot format file
+
+
+```dot
+digraph MLIR {
+  // 节点定义
+  start [label="Start"];
+  forward_func [label="forward function"];
+  alloc [label="alloc"];
+  inner_loop1 [label="Inner Loop 1"];
+  inner_loop2 [label="Inner Loop 2"];
+  inner_loop3 [label="Inner Loop 3"];
+  add [label="Add"];
+  mul [label="Multiply"];
+  store [label="Store"];
+  end [label="End"];
+
+  // 边定义
+  start -> forward_func;
+  forward_func -> alloc;
+  alloc -> inner_loop1;
+  inner_loop1 -> inner_loop2;
+  inner_loop2 -> inner_loop3;
+  inner_loop3 -> mul;
+  mul -> add;
+  add -> store;
+  store -> inner_loop3 [label="back"];
+  inner_loop3 -> inner_loop2 [label="back"];
+  inner_loop2 -> inner_loop1 [label="back"];
+  inner_loop1 -> end;
+}
+```
+visualize graph layout
+
+ ![](https://anniezfy.oss-cn-hangzhou.aliyuncs.com/%E6%88%AA%E5%B1%8F2023-10-20%2014.31.32.png)
+
+
+
