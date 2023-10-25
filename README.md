@@ -41,28 +41,57 @@ git clone https://github.com/anniezfy/Torch_Affine_To_DOT.git
 
 ​    Again  install LLVM/MLIR according to https://mlir.llvm.org/getting_started/
 
-2. Download the corresponding torch/torch front-ends
+2. Download the corresponding  correct torch and torch_mlir front-end version 
 
-   Torch version: torch-2.1.0-cp311
+   Following commands contain how to install python3.11 and build an exclusive python virtual environment under Ubuntu 20.04 Linux Operation System
 
-   Torchmlir version: torch_mlir-20231019.996-cp311
+   ```bash
+   # Update Ubuntu Before Python 3.11 Installation
+   sudo apt update
+   sudo apt upgrade
+   
+   #  Import Python PPA on Ubuntu 22.04 or 20.04
+   sudo apt install software-properties-common
+   sudo add-apt-repository ppa:deadsnakes/ppa -y
+   
+   # Run an APT update before proceeding to ensure reflection of the newly imported PPA.
+   sudo apt update
+   
+   # Install Python 3.11 on Ubuntu 22.04 or 20.04
+   sudo apt install python3.11
+   
+   # Verify the installation and build version of Python 3.11
+   python3.11 --version
+   
+   # Install the virtural environment
+   sudo apt install python3.11-venv
+   
+   python3.11 -m venv myvenv
+   
+   #Activate the virtual environment 
+   source myvenv/bin/activate
+   
+   ```
+   
+   ##    
 
-​       Download link: https://github.com/llvm/torch-mlir/releases/tag/snapshot-20231019.996
+3. We use the specific 20231019.996  torch-mlir and mlir package version
+
+   Downlink link: `https://github.com/llvm/torch-mlir/releases/tag/snapshot-20231019.996`
 
 ```bash
-python3 -m venv myenv
+# download the correspoding version depending on your computer architecter and system  
+ wget https://github.com/llvm/torch-mlir/releases/download/snapshot-20231019.996/torch-2.2.0.dev20231006+cpu-cp311-cp311-linux_x86_64.whl
 
-source myenv/bin/activate
+wget https://github.com/llvm/torch-mlir/releases/download/snapshot-20231019.996/torch_mlir-20231019.996-cp311-cp311-linux_x86_64.whl
 
-wget https://github.com/llvm/torch-mlir/releases/tag/snapshot-20231019.996/torch-2.2.0.dev20231006+cpu-cp38-cp38-linux_x86_64.whl
-
-
-wget https://github.com/llvm/torch-mlir/releases/tag/snapshot-20231019.996/torch_mlir-20231019.996-cp311-cp311-linux_x86_64.whl
-
-pip3.11 torch-2.2.0.dev20231006+cpu-cp38-cp38-linux_x86_64.whl
-
-pip3.11 torch_mlir-20231019.996-cp311-cp311-linux_x86_64.whl
+# install the packages
+pip3.11 install torch-2.2.0.dev20231006+cpu-cp311-cp311-linux_x86_64.whl
+pip3.11 install torch_mlir-20231019.996-cp311-cp311-linux_x86_64.whl
 ```
+
+
+
 # Dot format file illustration
 
 [Dot](https://graphviz.org/doc/info/lang.html) is known as a graph representation  language for  a clear and hierarchical  program flow structure description.
@@ -86,7 +115,35 @@ Dot is a language for describing the structure of graph of which could be render
 
 
 # Case example 
-input code mlir snippet 
+
+1.1 Pipeline Stage One 
+
+​     Run a simple example GEMM script under  following directory  `Torch_MLIR_MATRIX/main.py`
+
+```python
+class MatMulModule(torch.nn.Module):
+    def forward(self, a, b):
+        return torch.matmul(a, b)
+
+# 创建两个 3x3 的矩阵作为输入
+input_a = torch.ones(3, 3)
+input_b = torch.ones(3, 3) * 2
+```
+
+The above script emit Intermediate representation(IR)  base on `linalg` dialect, further transformation such as one-shot-bufferization and affine are required
+
+```bash
+mlir-opt compiled_torch2.2.mlir --canonicalize -convert-tensor-to-linalg -empty-tensor-to-alloc-tensor \
+-eliminate-empty-tensors -linalg-bufferize -arith-bufferize   -tensor-bufferize -func-bufferize \
+-finalizing-bufferize -buffer-deallocation   --buffer-results-to-out-params   --canonicalize -cse \
+-convert-linalg-to-affine-loops > matrix_mulitiplication_2.2.mlir
+```
+
+
+
+1.2 Pipeline Stage Two
+
+input `Stage one generated ` mlir code  snippet 
 
 
 ```mlir
@@ -121,7 +178,7 @@ module attributes {torch.debug_module_name = "MatMulModule"} {
 }
 ```
 
-Generated output dot format file
+emit output dot format file
 
 
 ```dot
@@ -170,6 +227,8 @@ affine_for_loop3 -> affine_store2;
 affine_store2 -> END;
 }
 ```
+
+
 visualized graph layout
 
  ![](https://anniezfy.oss-cn-hangzhou.aliyuncs.com/%E6%88%AA%E5%B1%8F2023-10-20%2014.31.32.png)
