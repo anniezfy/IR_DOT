@@ -8,7 +8,7 @@ mlir-opt compiled_torch2.2.mlir --canonicalize -convert-tensor-to-linalg -empty-
 -convert-linalg-to-affine-loops > matrix_mulitiplication_2.2.mlir
 
 
-# use mlir-opt --affine-loop-unroll and -test-lower-to-llvm options
+# use mlir-opt --affine-#$loop-unroll and -test-lower-to-llvm options
 # some tips about the options:Most useful linalg transforms, other than unrolling,
 # should happen before bufferization. And using the one-shot bufferization is the recommended path.
 #mlir-opt matrix_mulitiplication_affine_2.2.mlir --affine-loop-unroll="unroll-full" \
