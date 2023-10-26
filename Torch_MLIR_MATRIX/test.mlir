@@ -1,5 +1,4 @@
 module attributes {torch.debug_module_name = "MatMulModule"} {
-  ml_program.global private mutable @global_seed(dense<0> : tensor<i64>) : tensor<i64>
   func.func @forward(%arg0: memref<3x3xf32>, %arg1: memref<3x3xf32>, %arg2: memref<3x3xf32>) {
     %cst = arith.constant 0.000000e+00 : f32
     %alloc = memref.alloc() {alignment = 64 : i64} : memref<3x3xf32>
