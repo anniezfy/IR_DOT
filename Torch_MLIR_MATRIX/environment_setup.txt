@@ -1,0 +1,10 @@
+This is an environment set up for macs os
+# Step1: Open the Orbstack  and navigate to the this folder
+
+/var/folders/yy/tv9tpt_12sxcvznf76w2q_gh0000gn/T/orbstack-open-terminal_0B2EEF12.sh
+
+# Step2: Activate the virtual environment
+source  /Users/anniezfy/mlir-cgra/Torch_Affine_To_DOT/Torch_MLIR_MATRIX/myvenv/bin/activate
+
+# Step3: Run the python script
+python3.11 /Users/anniezfy/mlir-cgra/Torch_Affine_To_DOT/Torch_MLIR_MATRIX/main.py

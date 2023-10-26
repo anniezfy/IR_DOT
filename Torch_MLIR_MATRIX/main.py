@@ -1,12 +1,9 @@
 import torch
 import torch_mlir
-
-
 ## mlir-opt compiled_torch2.2.mlir -empty-tensor-to-alloc-tensor -one-shot-bufferize -convert-linalg-to-affine-loops
 class MatMulModule(torch.nn.Module):
     def forward(self, a, b):
         return torch.matmul(a, b)
-
 
 # 创建两个 3x3 的矩阵作为输入
 input_a = torch.ones(3, 3)
@@ -28,3 +25,4 @@ compiled_str = str(compiled)
 # 写入到文件
 with open("compiled_model.txt", "w") as f:
     f.write(compiled_str)
+
