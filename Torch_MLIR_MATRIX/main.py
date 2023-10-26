@@ -3,6 +3,7 @@ import torch_mlir
 
 
 ## mlir-opt compiled_torch2.2.mlir -empty-tensor-to-alloc-tensor -one-shot-bufferize -convert-linalg-to-affine-loops
+#test
 class MatMulModule(torch.nn.Module):
     def forward(self, a, b):
         return torch.matmul(a, b)
