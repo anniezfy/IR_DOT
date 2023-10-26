@@ -29182,3 +29182,5 @@ Torch_MLIR_MATRIX/myvenv/lib64
 Torch_MLIR_MATRIX/myvenv/pyvenv.cfg
 Torch_MLIR_MATRIX/myvenv/share/man/man1/isympy.1
 *.fish
+Torch_MLIR_MATRIX/environment_setup.txt
+Torch_MLIR_MATRIX/environment_setup.txt

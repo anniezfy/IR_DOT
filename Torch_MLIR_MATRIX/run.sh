@@ -1,4 +1,3 @@
-
 #Export the mlir-opt tool under the llvm build directory
 export PATH=$PWD:"/Users/anniezfy/llvm-project-mine/build/bin"
 
