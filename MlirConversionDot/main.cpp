@@ -25,7 +25,7 @@ map<string,int> Operator_Count={
         {"memref.dealloc",0},
         {"affine.load",0},
         {"arith.mulf",0},
-        {"arith.addf",0}
+        {"arith.addf",0},
 };
 
 //===--------------------------------------------------------------------===//
