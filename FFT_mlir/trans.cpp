@@ -41,7 +41,12 @@ map<string, int> Operator_Count = {
     {"math.cos",0},
     {"math.sin",0},
     {"arith.shrsi",0},
-    {"arith.divsi",0}
+    {"arith.divsi",0},
+    {"arith.muli",0},
+    {"arith.addi",0},
+    {"arith_subi",0},
+    {"llvm.ptrtoint",0},
+    {"polygeist.memref2pointer",0}
 };
 
 //===--------------------------------------------------------------------===//
@@ -127,169 +132,12 @@ public:
             /// 例如，从affine.for更改为affine_for_loop_str(number)
             return temp.replace(temp.find('.'), 1, "_", 1) + "_loop" + to_string(Operator_Count["affine.for"]);
         }
-        else if (!inputLiteral.compare("arith.addf"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.add更改为arith.add(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.addf"]);
-        }
-        else if (!inputLiteral.compare("memref.alloc"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从memref.alloc更改为memref.alloc(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["memref.alloc"]);
-        }
-        else if (!inputLiteral.compare("arith.constant"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.constant更改为arith.constant(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.constant"]);
-        }
-        else if (!inputLiteral.compare("affine.store"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从affine.store更改为affine.store(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["affine.store"]);
-        }
-        else if (!inputLiteral.compare("affine.load"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从affine.load更改为affine.load(number)
-            return temp.replace(temp.find('.'), 1,
-                                "_", 1) +
-                   to_string(Operator_Count["affine.load"]);
-        }
-        else if (!inputLiteral.compare("memref.copy"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从memref.copy更改为memref.copy(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["memref.copy"]);
-        }
-        else if (!inputLiteral.compare("memref.dealloc"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从memref.dealloc更改为memref.dealloc(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["memref.dealloc"]);
-        }
-        else if (!inputLiteral.compare("arith.mulf"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.mulf"]);
-        }
-        else if (!inputLiteral.compare("arith.subf"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.subf"]);
-        }
-        else if (!inputLiteral.compare("arith.addi"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.add更改为arith.add(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.addi"]);
-        }
-        else if (!inputLiteral.compare("arith.muli"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.muli"]);
-        }
-        else if (!inputLiteral.compare("arith.subi"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.subi"]);
-        }
-        else if (!inputLiteral.compare("arith.index_cast"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.index_cast"]);
-        }
-        else if (!inputLiteral.compare("memref.cast"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["memref.cast"]);
-        }
-        else if (!inputLiteral.compare("affine.yield"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["affine.yield"]);
-        }
-
-        else if (!inputLiteral.compare("scf.while"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["scf.while"]);
-        }
-        else if (!inputLiteral.compare("do.node"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["do.node"]);
-        }        
-        else if (!inputLiteral.compare("arith.cmpi"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.cmpi"]);
-        }
-
-        else if (!inputLiteral.compare("scf.condition"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["scf.condition"]);
-        }
-
+        
         else if (!inputLiteral.compare("undef.acos"))
         {
             /// 将节点变量名更改为标识符
             /// 例如，从arith.mulf更改为arith.mulf(number)
             return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["undef.acos"]);
-        }
-
-        else if (!inputLiteral.compare("arith.sitofp"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.sitofp"]);
-        }
-        else if (!inputLiteral.compare("arith.divsi"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.mulf更改为arith.mulf(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.divsi"]);
-        }
-
-        else if (!inputLiteral.compare("arith.divf"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从arith.add更改为arith.add(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.divf"]);
-        }
-
-        else if (!inputLiteral.compare("math.cos"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从memref.alloc更改为memref.alloc(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["math.cos"]);
-        }
-        else if (!inputLiteral.compare("math.sin"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从memref.alloc更改为memref.alloc(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["math.sin"]);
-        }
-        else if (!inputLiteral.compare("arith.shrsi"))
-        {
-            /// 将节点变量名更改为标识符
-            /// 例如，从memref.alloc更改为memref.alloc(number)
-            return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count["arith.shrsi"]);
         }
         else if (!inputLiteral.compare("func.func"))
         {
@@ -303,9 +151,13 @@ public:
             /// 例如，从func.func更改为END
             return "END";
         }
-        else
-        {
-            return "error";
+        else{
+            for(auto it:Operator_Count){
+                if(!inputLiteral.compare(it.first)){
+                    return temp.replace(temp.find('.'), 1, "_", 1) + to_string(Operator_Count[it.first]);
+                }
+            }
+            return "error";        
         }
     }
 
@@ -357,6 +209,7 @@ int main()
         string str(buffer);
         /// Find method returns the position of the first occurrence of the substring,
         /// And if the substring is not found, it returns std::string::npos.0
+        
         if (str.find("func.func") != string::npos)
         {
             /// Match the func.func identifier
@@ -364,49 +217,8 @@ int main()
             nodeList.push_back(Node("func.func"));
         }
 
-        else if (str.find("arith.constant") != string::npos)
-        {
-            /// Match the arith.constant identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.constant"]++;
-            nodeList.push_back(Node("arith.constant"));
-
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("memref.alloc") != string::npos)
-        {
-            /// Match the memref.alloc identifier
-            /// Append new node in the nodeList
-            Operator_Count["memref.alloc"]++;
-            nodeList.push_back(Node("memref.alloc"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
         else if (str.find("affine.for") != string::npos)
         {
-            /// Match the affine.foridentifier
-            /// Append new node in the nodeList
             Operator_Count["affine.for"]++;
             Node forNode = Node("affine.for");
             nodeList.push_back(forNode);
@@ -424,318 +236,6 @@ int main()
                 edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
                 /// Push the new for node to Stack according to FILO policy
                 forNodeStack.push(forNode);
-                /*
-                #ifdef DEBUG
-                                forNodeStack.traverse();
-                #endif
-                 */
-            }
-        }
-
-        else if (str.find("affine.store") != string::npos)
-        {
-            /// Match the affine.store identifier
-            /// Append new node in the nodeList
-            Operator_Count["affine.store"]++;
-            nodeList.push_back(Node("affine.store"));
-
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("affine.load") != string::npos)
-        {
-            /// Match the affine.load identifier
-            /// Append new node in the nodeList
-            Operator_Count["affine.load"]++;
-            nodeList.push_back(Node("affine.load"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("memref.copy") != string::npos)
-        {
-            /// Match the memref.copy identifier
-            /// Append new node in the nodeList
-            Operator_Count["memref.copy"]++;
-            nodeList.push_back(Node("memref.copy"));
-
-
-            /*            nodeList.push_back(Node("memref.copy"));
-            #ifdef DEBUG
-                        for(auto &elemt:nodeList){
-                            cout<<elemt.getSingleNode()<<endl;
-                        }
-            #endif
-                */
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("memref.dealloc") != string::npos)
-        {
-            /// Match the memref.dealloc identifier
-            /// Append new node in the nodeList
-            Operator_Count["memref.dealloc"]++;
-            nodeList.push_back(Node("memref.dealloc"));
-
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.mulf") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.mulf"]++;
-            nodeList.push_back(Node("arith.mulf"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.addf") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.addf"]++;
-            nodeList.push_back(Node("arith.addf"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.subf") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.subf"]++;
-            nodeList.push_back(Node("arith.subf"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-
-
-        else if (str.find("arith.muli") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.muli"]++;
-            nodeList.push_back(Node("arith.muli"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.addi") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.addi"]++;
-            nodeList.push_back(Node("arith.addi"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.subi") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.subi"]++;
-            nodeList.push_back(Node("arith.subi"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.index_cast") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.index_cast"]++;
-            nodeList.push_back(Node("arith.index_cast"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("memref.cast") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["memref.cast"]++;
-            nodeList.push_back(Node("memref.cast"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("affine.yield") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["affine.yield"]++;
-            nodeList.push_back(Node("affine.yield"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.cmpi") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.cmpi"]++;
-            nodeList.push_back(Node("arith.cmpi"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.sitofp") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.sitofp"]++;
-            nodeList.push_back(Node("arith.sitofp"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
             }
         }
 
@@ -759,104 +259,22 @@ int main()
             }
         }
 
-
-        else if (str.find("arith.divf") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.divf"]++;
-            nodeList.push_back(Node("arith.divf"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }        
-
-        else if (str.find("math.cos") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["math.cos"]++;
-            nodeList.push_back(Node("math.cos"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-        else if (str.find("math.sin") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["math.sin"]++;
-            nodeList.push_back(Node("math.sin"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
-        else if (str.find("arith.shrsi") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.shrsi"]++;
-            nodeList.push_back(Node("arith.shrsi"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
         else if (str.find("func.call") != string::npos)
         {
-            string func_name=str.substr(str.find("func.call")+10,5);
-            fseek(file, 0, SEEK_SET);
+            string func_name=str.substr(str.find("func.call")+10,5);//截取函数名
+            fseek(file, 0, SEEK_SET);   //将文件读取位置设置到文件开头
             while (fgets(buffer, bufferSize, file) != nullptr)
             {
                 string str1(buffer);
-                if(str1.find(func_name)!=string::npos & str1.find("{")!=string::npos){
+                if(str1.find(func_name)!=string::npos & str1.find("{")!=string::npos){  //寻找函数主题，通过同时找到函数名和"{"判断
                     break;
                 }
             }
-            in_func=1;
+            in_func=1;      //将函数标志位置1
         }
 
-         else if (str.find("scf.while") != string::npos)
+         else if (str.find("scf.while") != string::npos)//while当做for来处理
         {
-            /// Match the affine.foridentifier
-            /// Append new node in the nodeList
             Operator_Count["scf.while"]++;
             Node forNode = Node("scf.while");
             nodeList.push_back(forNode);
@@ -874,78 +292,80 @@ int main()
                 edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
                 /// Push the new for node to Stack according to FILO policy
                 forNodeStack.push(forNode);
-                /*
-                #ifdef DEBUG
-                                forNodeStack.traverse();
-                #endif
-                 */
             }
         }
 
-
-
         else if (str.find("return") != string::npos)
         {
-            if(in_func==0){
+            if(in_func==0){     //不在调用函数的过程中中则结束
                 nodeList.push_back(Node("END"));
                 edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
                 fclose(file); // 关闭文件
                 break;
             }
-            else{
-                fseek(file, 0, SEEK_SET);
-                for(int i=0;i<count;i++){
+            else{           //在调用函数的过程中
+                fseek(file, 0, SEEK_SET);//设置文件读取头到文件头
+                for(int i=0;i<count;i++){//根据之前记录的位置将文件读取位置设置过去
                     fgets(buffer, bufferSize, file);
                 }
-                in_func=0;
+                in_func=0;  //将函数标志位置零
             }
         }
-
-        else if (str.find("arith.divsi") != string::npos)
-        {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
-            Operator_Count["arith.divsi"]++;
-            nodeList.push_back(Node("arith.divsi"));
-            /// Create the corresponding edge
-            if (edgeList.empty())
-            {
-                /// Initialization of edgeList
-                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
-            }
-            else
-            {
-                /// Create the subsequent edges
-                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
-            }
-        }
-
         else if (str.find("do") != string::npos)
         {
-            /// Match the arith.mulf identifier
-            /// Append new node in the nodeList
             Operator_Count["do.node"]++;
             nodeList.push_back(Node("do.node"));
-            /// Create the corresponding edge
             if (edgeList.empty())
             {
-                /// Initialization of edgeList
                 edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
             }
             else
             {
-                /// Create the subsequent edges
                 edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
             }
         }
-        else if (str.find('}') != string::npos && str.find('{') == string::npos)
+        else if (str.find('}') != string::npos && str.find('{') == string::npos)//剔除do的情况
         {
-
-            /// Pop out previous restored `for` node from MyStack;
-            /// Create the back edge
             edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), forNodeStack.top().getSingleNode(), true));
             forNodeStack.pop();
         }
+
+        else if (str.find("call @acos") != string::npos)
+        {
+            Operator_Count["undef.acos"]++;
+            nodeList.push_back(Node("undef.acos"));
+            if (edgeList.empty())
+            {
+                /// Initialization of edgeList
+                edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
+
+            }
+            else
+            {
+                /// Create the subsequent edges
+                edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
+            }
+        }        
+        else{
+            for(auto it:Operator_Count){
+            if(str.find(it.first)!=string::npos){
+                Operator_Count[it.first]++;
+                nodeList.push_back(Node(it.first));
+                // Create the corresponding edge
+                if (edgeList.empty())
+                {
+                /// Initialization of edgeList
+                    edgeList.push_back(Edge(nodeList[0].getSingleNode(), nodeList[1].getSingleNode()));
+                }
+                else
+                {
+                /// Create the subsequent edges
+                    edgeList.push_back(Edge(edgeList[edgeList.size() - 1].getSinkNode(), nodeList[nodeList.size() - 1].getSingleNode()));
+                }
+                break;
+            }
+        }          
+        }      
     }
 
     /// Open source file under Correct Location
